@@ -33,3 +33,4 @@ especially for people just learning Haskell.
 ### Code Design
 
 * [Three Layer Cake](http://www.parsonsmatt.org/2018/03/22/three_layer_haskell_cake.html)
+   * A good post about designing a monad stack in an application
