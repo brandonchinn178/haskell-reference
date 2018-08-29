@@ -29,7 +29,7 @@ especially for people just learning Haskell.
     * Useful repository of Haskell packages
     * Can search for functions by name (`map`) or by type (`(a -> b) -> [a] -> [b]`)
     * Can also search for types (`Text`), packages (`text`), and modules (`Data.Text`)
-    
+
 ### Code Design
 
 * [Three Layer Cake](http://www.parsonsmatt.org/2018/03/22/three_layer_haskell_cake.html)
