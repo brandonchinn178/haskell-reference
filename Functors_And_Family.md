@@ -389,3 +389,6 @@ I got a lot of inspiration from this
 [School of Haskell](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/profunctors)
 article. It does a really good job of explaining all of this as well, so take
 a look at that if you want to learn more.
+
+This [article](https://www.fpcomplete.com/blog/2016/11/covariance-contravariance)
+also explains the same concepts in much the same format.
