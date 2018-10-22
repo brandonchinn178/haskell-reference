@@ -1,7 +1,7 @@
 # MTL Style Monads
 
 This document gives an introduction for what MTL style monads offer and some
-motivation for what problems it solves. "MTL" comes from the [`mtl`][1]
+motivation for what problems it solves. "MTL" refers to the [`mtl`][1]
 Haskell package: the Monad Transformer Library.
 
 ## Two separate problems
@@ -136,8 +136,8 @@ instance MonadWriter m => MonadWriter (ReaderT r m) where
   tell = lift . tell
 ```
 
-(`lift` is something like `WriterT m a -> ReaderT r m a`. You can think of it
-as magic for now, or check out [MonadTrans][2] for more details).
+(`lift` has the type: `WriterT m a -> ReaderT r (WriterT m) a`. See
+[MonadTrans][2] for more details).
 
 These types are called "monad transformers" because they transform a given
 monad by providing it another "effect". `ReaderT r m a` transforms the monad
