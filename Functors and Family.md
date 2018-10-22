@@ -192,8 +192,7 @@ showRight = second show
 
 Before moving on to the more complex typeclasses, I'd like to introduce a type
 that will be useful for understanding the future sections: `Conduit`. Note: the
-`Conduit` type described here is a simplified version of the
-[actual type](http://hackage.haskell.org/package/conduit-1.3.0.3/docs/Data-Conduit.html#t:ConduitT).
+`Conduit` type described here is a simplified version of the [actual type][1].
 
 `Conduit i o` represents a sort-of pipe that can consume a stream of input
 values of type `i` and produce a stream of output values of type `o`. For
@@ -385,10 +384,12 @@ understandable. It may be completely over your head at this point, but after
 thinking about it more and using `Functor` and `fmap` more, you'll start to
 understand this better and better.
 
-I got a lot of inspiration from this
-[School of Haskell](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/profunctors)
-article. It does a really good job of explaining all of this as well, so take
-a look at that if you want to learn more.
+I got a lot of inspiration from this [School of Haskell][2] article. It does a
+really good job of explaining all of this as well, so take a look at that if
+you want to learn more.
 
-This [article](https://www.fpcomplete.com/blog/2016/11/covariance-contravariance)
-also explains the same concepts in much the same format.
+This [article][3] also explains the same concepts in much the same format.
+
+[1]: http://hackage.haskell.org/package/conduit-1.3.0.3/docs/Data-Conduit.html#t:ConduitT
+[2]: https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/profunctors
+[3]: https://www.fpcomplete.com/blog/2016/11/covariance-contravariance

@@ -1,9 +1,8 @@
 # MTL Style Monads
 
 This document gives an introduction for what MTL style monads offer and some
-motivation for what problems it solves. "MTL" comes from the
-[`mtl`](http://hackage.haskell.org/package/mtl) Haskell package: the Monad
-Transformer Library.
+motivation for what problems it solves. "MTL" comes from the [`mtl`][1]
+Haskell package: the Monad Transformer Library.
 
 ## Two separate problems
 
@@ -138,9 +137,7 @@ instance MonadWriter m => MonadWriter (ReaderT r m) where
 ```
 
 (`lift` is something like `WriterT m a -> ReaderT r m a`. You can think of it
-as magic for now, or check out
-[MonadTrans](https://www.stackage.org/haddock/lts-12.14/transformers-0.5.5.0/Control-Monad-Trans-Class.html#t:MonadTrans)
-for more details).
+as magic for now, or check out [MonadTrans][2] for more details).
 
 These types are called "monad transformers" because they transform a given
 monad by providing it another "effect". `ReaderT r m a` transforms the monad
@@ -209,13 +206,21 @@ This provides the following benefits:
       have a monad that can run `tell`.
 
 One of the best articles I've read that talks about this is the
-[Three Layer Haskell Cake](http://www.parsonsmatt.org/2018/03/22/three_layer_haskell_cake.html).
+[Three Layer Haskell Cake][3].
 
 ## Additional reading
 
 Here are some more resources I've found that are helpful:
 
-* [`ReaderT`](https://www.stackage.org/haddock/lts-12.14/mtl-2.2.2/Control-Monad-Reader.html) on Stackage
-* [`WriterT`](https://www.stackage.org/haddock/lts-12.14/mtl-2.2.2/Control-Monad-Writer-Strict.html) on Stackage
-* https://ocharles.org.uk/posts/2016-01-26-transformers-free-monads-mtl-laws.html
-* https://robots.thoughtbot.com/refactoring-to-a-monad-transformer-stack
+* [`ReaderT`][4] on Stackage
+* [`WriterT`][5] on Stackage
+* [Monad transformers, free monads, mtl, laws, and a new approach][6]
+* [Refactoring to a Monad Transformer Stack][7]
+
+[1]: http://hackage.haskell.org/package/mtl
+[2]: https://www.stackage.org/haddock/lts-12.14/transformers-0.5.5.0/Control-Monad-Trans-Class.html#t:MonadTrans
+[3]: http://www.parsonsmatt.org/2018/03/22/three_layer_haskell_cake.html
+[4]: https://www.stackage.org/haddock/lts-12.14/mtl-2.2.2/Control-Monad-Reader.html
+[5]: https://www.stackage.org/haddock/lts-12.14/mtl-2.2.2/Control-Monad-Writer-Strict.html
+[6]: https://ocharles.org.uk/posts/2016-01-26-transformers-free-monads-mtl-laws.html
+[7]: https://robots.thoughtbot.com/refactoring-to-a-monad-transformer-stack
