@@ -2,9 +2,9 @@
 
 This document gives an introduction for what MTL style monads offer and some
 motivation for what problems it solves. "MTL" refers to the [`mtl`][1]
-Haskell package: the Monad Transformer Library.
+Haskell package.
 
-## Two separate problems
+## Two separate functionalities
 
 Let's say you have two people working on separate libraries. One person is
 writing a library to allow programs to pass some configuration or environment
@@ -75,11 +75,30 @@ class MonadWriter m where
   tell :: String -> m ()
 ```
 
-Now, we could implement these type classes for each program we write, but we
-still have the same problem as before: we don't want to re-implement these
-effects every time. What we can do instead is create data types that know how
-to do these actions within the context of an arbitrary type, not just within
-`IO`, as the concrete examples above give.
+Now with these "mtl-style" type classes, we can abstractly declare types as
+being able to "ask" or "tell". Crucially, we have a common interface between
+these types, simply by declaring them as instances of these type classes. So
+you can write a function:
+
+```haskell
+addFromEnv :: MonadReader Int m => Int -> m Int
+addFromEnv x = do
+  y <- ask
+  return $ x + y
+```
+
+This function can be run by anything that can ask about an `Int`, not just
+your special type you made for this library.
+
+Ok so now you've implemented a set of functions that define constraints on
+`MonadReader`. When you write your executable to do production-y stuff, how do
+you call these functions? You can write your own type and implement
+`MonadReader` for it, but you don't want to re-implement `MonadReader` every
+time you write a new program that calls these functions.
+
+What we can do instead is create data types that know how to do these actions
+within the context of an arbitrary type, not just within `IO`, as the `Reader`
+and `Writer` types above do.
 
 ```haskell
 newtype ReaderT r m a = ReaderT { ... }
@@ -92,7 +111,7 @@ runWriterT :: WriterT m a -> m (a, [String])
 ```
 
 Now, instead of only knowing how to read/log in the `IO` monad, we can now
-read/log within any given monad!
+read/log within any monad `m`!
 
 We can implement the above type classes just once for these new types:
 
@@ -139,12 +158,17 @@ instance MonadWriter m => MonadWriter (ReaderT r m) where
 (`lift` has the type: `WriterT m a -> ReaderT r (WriterT m) a`. See
 [MonadTrans][2] for more details).
 
-These types are called "monad transformers" because they transform a given
-monad by providing it another "effect". `ReaderT r m a` transforms the monad
-`m` by implementing `MonadReader r` to provide the `ask` function.
-`WriterT m a` transforms the monad `m` by implementing `MonadWriter` to provide
-the `tell` function. You can then "stack" effects upon each other by wrapping
-subsequent monad transformers within each other with the `m` type parameter.
+These types like `ReaderT` and `WriterT` are called "monad transformers"
+because they transform a given monad by providing it another "effect".
+`ReaderT r m a` transforms the monad `m` by implementing `MonadReader r` to
+provide the `ask` function. `WriterT m a` transforms the monad `m` by
+implementing `MonadWriter` to provide the `tell` function. You can then "stack"
+effects upon each other by wrapping subsequent monad transformers within each
+other within the `m` type parameter.
+
+These two tools, mtl-style type classes and monad transformers, provide a way
+of abstracting effects in low-level functions and implementing them once at a
+higher level.
 
 ## Design practices for monad stacks
 
@@ -216,6 +240,7 @@ Here are some more resources I've found that are helpful:
 * [`WriterT`][5] on Stackage
 * [Monad transformers, free monads, mtl, laws, and a new approach][6]
 * [Refactoring to a Monad Transformer Stack][7]
+* [mtl is not a monad transformer library][8]
 
 [1]: http://hackage.haskell.org/package/mtl
 [2]: https://www.stackage.org/haddock/lts-12.14/transformers-0.5.5.0/Control-Monad-Trans-Class.html#t:MonadTrans
@@ -224,3 +249,4 @@ Here are some more resources I've found that are helpful:
 [5]: https://www.stackage.org/haddock/lts-12.14/mtl-2.2.2/Control-Monad-Writer-Strict.html
 [6]: https://ocharles.org.uk/posts/2016-01-26-transformers-free-monads-mtl-laws.html
 [7]: https://robots.thoughtbot.com/refactoring-to-a-monad-transformer-stack
+[8]: https://blog.jle.im/entry/mtl-is-not-a-monad-transformer-library.html
